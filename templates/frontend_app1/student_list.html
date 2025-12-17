@@ -26,7 +26,7 @@
             <td>{{ x.email }}</td>
             <td>
                 <a href="{% url 'confirm_edit_student' x.id %}" class="btn btn-warning btn-sm">Edit</a>
-                <a href="{% url 'confirm_delete_student' x.id %}" class="btn btn-danger btn-sm">Delete</a>
+                <a href="{% url 'delete_student' x.id %}" class="btn btn-danger btn-sm">Delete</a>
             </td>
         </tr>
         {% endfor %}
