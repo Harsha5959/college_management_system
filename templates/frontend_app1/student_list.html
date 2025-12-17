@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="table-page">
+
+<h3 class="mb-3">Students</h3>
+
+<table class="table table-bordered table-hover bg-white shadow">
+    <thead class="table-dark">
+        <tr>
+            <th>Professor</th>
+            <th>Department</th>
+            <th>Name</th>
+            <th>Roll No</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for x in data %}
+        <tr>
+            <td>{{ x.professor }}</td>
+            <td>{{ x.department }}</td>
+            <td>{{ x.name }}</td>
+            <td>{{ x.roll_no }}</td>
+            <td>{{ x.email }}</td>
+            <td>
+                <a href="{% url 'confirm_edit_student' x.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'confirm_delete_student' x.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'add_student' %}" class="btn btn-success mb-3">
+    ➕ Add Student
+</a>
+
+</div>
+{% endblock %}
+

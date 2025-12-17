@@ -1,0 +1,26 @@
+/* MAIN BACKGROUND */
+body {
+    background: url("../images/bg_main.jpeg") no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+
+/* WHITE TRANSPARENT CONTENT BOX */
+.content-box {
+    background: rgba(255, 255, 255, 0.93);
+    padding: 25px;
+    border-radius: 10px;
+}
+
+/* TABLE PAGES BACKGROUND */
+.table-page {
+    /* background: url("../images/bg_table.jpeg") no-repeat center center fixed; */
+    background-size: cover;
+}
+
+/* FORM PAGES BACKGROUND */
+.form-page {
+    background: url("../images/bg_form.jpg") no-repeat center center fixed;
+    background-size: cover;
+}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="table-page">
+
+<h3 class="mb-3">Departments</h3>
+
+<table class="table table-bordered table-hover bg-white shadow">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for x in data %}
+        <tr>
+            <td>{{ x.name }}</td>
+            <td>{{ x.code }}</td>
+            <td>
+                <a href="{% url 'confirm_edit_department' x.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'confirm_delete_department' x.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'add_department' %}" class="btn btn-success mb-3">
+    ➕ Add Department
+</a>
+
+
+</div>
+{% endblock %}
