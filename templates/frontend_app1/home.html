@@ -1,19 +1,119 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="card shadow">
-    <div class="card-body">
-        <h3>Welcome to College Management System</h3>
 
-        {% if user.is_authenticated %}
-            <p class="text-success">
-                You are logged in as <b>{{ user.username }}</b>
-            </p>
-        {% else %}
-            <p class="text-danger">
-                You are not logged in. Please login to continue.
-            </p>
-        {% endif %}
+<div class="page-fade">
+    <h2 class="fw-bold mb-1">Dashboard</h2>
+    <p class="text-muted mb-4">Hello {{ user.username }}, welcome back 👋</p>
+
+    <!-- ===== KPI Cards ===== -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-value">{{ department_count }}</div>
+                <div class="stat-label">Departments</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-value">{{ hod_count }}</div>
+                <div class="stat-label">HODs</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-value">{{ professor_count }}</div>
+                <div class="stat-label">Professors</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-value">{{ student_count }}</div>
+                <div class="stat-label">Students</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Charts Section ===== -->
+    <div class="row g-4">
+
+        <!-- Donut Chart -->
+        <div class="col-lg-4">
+            <div class="chart-panel p-3" style="border-radius: 12px; background: var(--card); box-shadow: 0 2px 10px rgba(0,0,0,.08);">
+                <h6 class="fw-semibold mb-3">Overall Distribution</h6>
+                <canvas id="donutChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="col-lg-8">
+            <div class="chart-panel p-3" style="border-radius: 12px; background: var(--card); box-shadow: 0 2px 10px rgba(0,0,0,.08); min-height: 320px;">
+                <h6 class="fw-semibold mb-3">Students by Department</h6>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- ===== Chart.js CDN ===== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const isDark = document.documentElement.classList.contains("dark");
+
+const textColor = isDark ? "#e9ecef" : "#212529";
+const gridColor = isDark ? "#495057" : "#dee2e6";
+const bgColors = ["#0d6efd", "#6610f2", "#198754", "#dc3545"];
+const donutData = {
+    labels: ["Departments", "HODs", "Professors", "Students"],
+    datasets: [{
+        data: [
+            {{ department_count|default:0 }},
+            {{ hod_count|default:0 }},
+            {{ professor_count|default:0 }},
+            {{ student_count|default:0 }},
+        ],
+        backgroundColor: bgColors,
+        borderWidth: 1
+    }]
+};
+
+new Chart(document.getElementById("donutChart"), {
+    type: "doughnut",
+    data: donutData,
+    options: {
+        plugins: {
+            legend: { position: "bottom", labels: { color: textColor }}
+        },
+        cutout: "55%"
+    }
+});
+
+const barLabels = {{ dept_names|safe }};
+const barValues = {{ dept_students|safe }};
+
+new Chart(document.getElementById("barChart"), {
+    type: "bar",
+    data: {
+        labels: barLabels,
+        datasets: [{
+            label: "Students",
+            data: barValues,
+            backgroundColor: "#0d6efd",
+        }]
+    },
+    options: {
+        scales: {
+            x: { ticks: { color: textColor }, grid: { color: gridColor }},
+            y: { ticks: { color: textColor }, grid: { color: gridColor }}
+        },
+        plugins: {
+            legend: { labels: { color: textColor }},
+        }
+    }
+});
+</script>
+
 {% endblock %}

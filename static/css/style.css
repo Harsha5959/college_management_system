@@ -1,26 +1,366 @@
-/* MAIN BACKGROUND */
-body {
-    background: url("../images/bg_main.jpeg") no-repeat center center fixed;
-    background-size: cover;
+/* =========================================================
+   | THEME VARIABLES — LIGHT & DARK
+   | Glassmorphism + Bootstrap Color System
+========================================================= */
+
+:root {
+    --bg: #eef2f7;
+    --bg-glass: rgba(255,255,255,0.55);
+    --text: #1a1d20;
+    --text-muted: #6c757d;
+
+    --card: rgba(255,255,255,0.65);
+    --navbar: rgba(30,41,59,0.65);
+
+    --table-header: rgba(30,41,59,0.85);
+    --table-row-even: rgba(0,0,0,0.03);
+    --table-row-hover: rgba(59,130,246,0.08);
+
+    --btn-edit: #0d6efd;
+    --btn-edit-hover: #0b5ed7;
+    --btn-delete: #dc3545;
+    --btn-delete-hover: #bb2d3b;
+
+    --blur: 14px;
+    --radius: 14px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+
+.dark {
+    --bg: #0d1117;
+    --bg-glass: rgba(32,35,42,0.55);
+    --text: #e5e7eb;
+    --text-muted: #9ca3af;
+
+    --card: rgba(32,35,42,0.55);
+    --navbar: rgba(17,20,24,0.55);
+
+    --table-header: rgba(55,65,81,0.85);
+    --table-row-even: rgba(255,255,255,0.03);
+    --table-row-hover: rgba(59,130,246,0.14);
+
+    --btn-edit: #3b82f6;
+    --btn-edit-hover: #1d4ed8;
+    --btn-delete: #ef4444;
+    --btn-delete-hover: #b91c1c;
+
+    --shadow: 0 4px 32px rgba(0,0,0,0.55);
+}
+
+/* Smooth swaps */
+:root, .dark {
+    transition: background .35s ease, color .35s ease;
+}
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", "Poppins", sans-serif;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
+/* =========================================================
+   NAVBAR — GLASS
+========================================================= */
 
-/* WHITE TRANSPARENT CONTENT BOX */
-.content-box {
-    background: rgba(255, 255, 255, 0.93);
-    padding: 25px;
-    border-radius: 10px;
+.navbar {
+    background: var(--navbar) !important;
+    backdrop-filter: blur(var(--blur));
+    box-shadow: var(--shadow);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: .35s ease;
 }
 
-/* TABLE PAGES BACKGROUND */
-.table-page {
-    /* background: url("../images/bg_table.jpeg") no-repeat center center fixed; */
-    background-size: cover;
+.navbar-brand {
+    color: white !important;
+    font-weight: 600;
 }
 
-/* FORM PAGES BACKGROUND */
+/* NAV LINKS */
+.nav-link {
+    font-weight: 500;
+    color: rgba(255,255,255,0.65) !important;
+    position: relative;
+    transition: .25s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: white !important;
+}
+
+/* Underline animation */
+.nav-link::after {
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-3px;
+    height:2px;
+    width:0%;
+    background:#3b82f6;
+    border-radius:3px;
+    transition:.25s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width:100%;
+}
+
+/* =========================================================
+   PAGE CONTAINERS — GLASS PANELS
+========================================================= */
+
+.content-box,
+.table-page,
 .form-page {
-    background: url("../images/bg_form.jpg") no-repeat center center fixed;
-    background-size: cover;
+    width:85%;
+    max-width:1100px;
+    margin:28px auto;
+    padding:28px;
+    background:var(--card);
+    backdrop-filter: blur(var(--blur));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    animation: fadeUp .45s ease forwards;
+    opacity:0;
+}
+
+@keyframes fadeUp {
+    from { opacity:0; transform:translateY(8px); }
+    to { opacity:1; transform:translateY(0); }
+}
+
+/* =========================================================
+   TABLE — GLASS + GLOW HOVER
+========================================================= */
+
+.table {
+    border-radius: var(--radius);
+    overflow:hidden;
+    backdrop-filter: blur(var(--blur));
+}
+
+.table thead th {
+    background: var(--table-header);
+    color:white !important;
+    padding:10px 14px;
+}
+
+.table tbody tr {
+    transition:.25s ease;
+}
+
+.table tbody tr:nth-child(even) {
+    background: var(--table-row-even);
+}
+
+.table tbody tr:hover {
+    background: var(--table-row-hover);
+    transform: scale(1.002);
+}
+
+/* =========================================================
+   BUTTONS — GLASS COMPATIBLE
+========================================================= */
+
+button, .btn {
+    border-radius: 8px;
+    font-size:14px;
+    padding:6px 14px;
+    cursor:pointer;
+    transition:.22s ease;
+}
+
+/* Edit */
+.btn-edit {
+    background: var(--btn-edit) !important;
+    color:white !important;
+}
+.btn-edit:hover {
+    background: var(--btn-edit-hover) !important;
+    transform: translateY(-1px);
+}
+
+/* Delete */
+.btn-delete {
+    background: var(--btn-delete) !important;
+    color:white !important;
+}
+.btn-delete:hover {
+    background: var(--btn-delete-hover) !important;
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   LOGIN / SIGNUP BUTTON FIX
+========================================================= */
+
+.form-submit,
+button[type="submit"],
+input[type="submit"] {
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    font-weight:600;
+    background:#3b82f6;
+    border:1px solid #3b82f6;
+    color:white !important;
+    transition:.25s ease;
+}
+
+.form-submit:hover {
+    background:#2563eb;
+    transform:translateY(-1px);
+}
+
+.dark .form-submit:hover {
+    background:#60a5fa;
+}
+
+/* =========================================================
+   INPUT + SELECT — NEON FOCUS
+========================================================= */
+
+input, select {
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid rgba(180,180,180,0.4);
+    background:var(--card);
+    backdrop-filter: blur(var(--blur));
+    color:var(--text);
+    transition:.25s;
+}
+
+input:focus, select:focus {
+    outline:none;
+    border-color:#3b82f6;
+    box-shadow:0 0 0 3px rgba(59,130,246,0.35);
+}
+
+/* =========================================================
+   DASHBOARD CARDS — GLASS
+========================================================= */
+
+.stat-card {
+    background:var(--card);
+    backdrop-filter: blur(var(--blur));
+    padding:20px;
+    border-radius: var(--radius);
+    box-shadow:var(--shadow);
+    transition:.25s ease;
+}
+.stat-card:hover {
+    transform:translateY(-3px);
+}
+
+/* =========================================================
+   AUTH PANEL
+========================================================= */
+
+.auth-box {
+    width:100%;
+    max-width:420px;
+    margin:auto;
+    background:var(--card);
+    backdrop-filter:blur(var(--blur));
+    padding:28px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* =========================================================
+   NAV AUTH BUTTONS
+========================================================= */
+
+.btn-nav {
+    padding:6px 14px;
+    border-radius:8px;
+    font-weight:500;
+    text-decoration:none;
+    transition:.22s ease;
+}
+
+.btn-nav-filled {
+    background:#3b82f6;
+    color:white !important;
+}
+.btn-nav-filled:hover {
+    background:#2563eb;
+}
+
+.btn-nav-outline {
+    background:transparent;
+    border:1.5px solid rgba(255,255,255,0.45);
+    color:white !important;
+}
+.btn-nav-outline:hover {
+    border-color:#3b82f6;
+    color:#3b82f6 !important;
+}
+
+/* =========================================================
+   THEME TOGGLE — PREMIUM ICON SWAP
+========================================================= */
+
+.theme-toggle-btn {
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1.5px solid rgba(255,255,255,0.45);
+    background:transparent;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    transition:.3s ease;
+}
+
+.theme-toggle-btn:hover {
+    transform:scale(1.15);
+    border-color:white;
+}
+
+.theme-rotate {
+    animation:rotateTheme .45s ease;
+}
+@keyframes rotateTheme {
+    from { transform:rotate(0deg); opacity:.5; }
+    to { transform:rotate(360deg); opacity:1; }
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    margin-top:auto;
+    padding:16px;
+    text-align:center;
+    background:var(--navbar);
+    color:white;
+    backdrop-filter:blur(var(--blur));
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:992px){
+    .navbar-collapse {
+        padding:12px;
+        background:var(--navbar);
+        border-radius: var(--radius);
+        backdrop-filter: blur(var(--blur));
+    }
 }

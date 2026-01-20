@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard-container d-flex">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h6 class="sidebar-title mb-2">Navigation</h6>
+
+        <a href="{% url 'hod_list' %}">HODs</a>
+        <a href="{% url 'professor_list' %}">Professors</a>
+        <a href="{% url 'student_list' %}">Students</a>
+        <a href="{% url 'department_list' %}">Departments</a>
+
+        {% if user.is_superuser %}
+            <hr>
+            <a href="{% url 'admin:index' %}" class="text-danger">Django Admin</a>
+        {% endif %}
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="dashboard-content flex-grow-1">
+
+        <h3 class="fw-semibold mb-3">Dashboard</h3>
+
+        <!-- STAT CARDS -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-value">{{ hod_count }}</div>
+                    <div class="stat-label">HODs</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-value">{{ professor_count }}</div>
+                    <div class="stat-label">Professors</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-value">{{ student_count }}</div>
+                    <div class="stat-label">Students</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-value">{{ department_count }}</div>
+                    <div class="stat-label">Departments</div>
+                </div>
+            </div>
+        </div>
+
+        {% block dashboard_inner %}{% endblock %}
+    </div>
+</div>
+
+{% endblock %}

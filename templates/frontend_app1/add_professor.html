@@ -1,41 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="form-page">
 
-<div class="row justify-content-center">
-<div class="col-md-6">
-<div class="card shadow">
-
-<div class="card-header bg-success text-white">
-    Add Professor
+<div class="form-wrapper d-flex justify-content-center">
+    <div class="form-box page-fade">
+        <h4 class="form-title">Add Professor</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary w-100 mt-2">Save</button>
+        </form>
+    </div>
 </div>
 
-<div class="card-body">
-
-{% if error %}
-<div class="alert alert-danger">{{ error }}</div>
-{% endif %}
-
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-
-<hr>
-<h6>Admin Confirmation</h6>
-
-<input type="text" name="username" class="form-control mb-2"
-       placeholder="Admin Username" required>
-
-<input type="password" name="password" class="form-control mb-3"
-       placeholder="Admin Password" required>
-
-<button class="btn btn-success w-100">Save</button>
-</form>
-
-</div>
-</div>
-</div>
-</div>
-
-</div>
 {% endblock %}
