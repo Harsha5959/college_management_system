@@ -20,7 +20,7 @@ ADMIN_PASSWORD = "12345"
 # BASIC VIEWS
 # ===============================
 
-
+@login_required
 def home(request):
     dept = Department.objects.all()
 
